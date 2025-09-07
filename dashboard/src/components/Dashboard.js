@@ -22,11 +22,11 @@ const Dashboard = () => {
       .then((res) => {
         if (!res.data.username) {
           // Not authenticated, go back to login
-          window.location.href = "http://localhost:3000/login";
+          window.location.href = "https://zerodhaclone-yo3g.onrender.com/login";
         }
       })
       .catch(() => {
-        window.location.href = "http://localhost:3000/login";
+        window.location.href = "https://zerodhaclone-yo3g.onrender.com/login";
       });
   }, [navigate]);
 

@@ -42,7 +42,7 @@ const Login = () => {
       if (success) {
         handleSuccess(message);
          setTimeout(() => {
-         window.location.href = `https://zerodhadb.onrender.com?username=${username}`;
+         window.location.href = `https://zerodhaclone-yo3g.onrender.com?username=${username}`;
   }, 1000);
   
 
