@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const instance = axios.create({
-  baseURL: "http://localhost:3002", // backend
+  baseURL: "https://zerodha-backend-o0vr.onrender.com", // backend
   withCredentials: true
 });
 
