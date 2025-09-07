@@ -2,6 +2,7 @@ const { Signup, Login } = require("../Controller/AuthController");
 const { verifyUser } = require("../Middleware/AuthMiddleware");
 const router = require("express").Router();
 const User = require("../model/UserModel");
+const bcrypt = require("bcryptjs");  // or require("bcrypt")
 
 router.post("/Signup", Signup);
 // backend/routes/auth.js (or wherever your login route is)
@@ -33,6 +34,7 @@ router.post("/login", async (req, res) => {
     res.json({ success: false, message: "Server error" });
   }
 });
+
 
 router.get("/dashboard", verifyUser, async (req, res) => {
   try {

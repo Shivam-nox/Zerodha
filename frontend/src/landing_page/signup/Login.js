@@ -44,6 +44,8 @@ const Login = () => {
          setTimeout(() => {
          window.location.href = `http://localhost:3001?username=${username}`;
   }, 1000);
+  
+
       } else {
         handleError(message);
       }
