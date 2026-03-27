@@ -1,16 +1,12 @@
 import React, { useState, useContext } from "react";
-import { Link } from "react-router-dom";
 import axios from "axios";
-
 import GeneralContext from "./GeneralContext";
-
 import "./BuyActionWindow.css";
 
 const BuyActionWindow = ({ uid }) => {
   const [stockQuantity, setStockQuantity] = useState(1);
   const [stockPrice, setStockPrice] = useState(0.0);
 
-  // ✅ Use the context properly
   const { closeBuyWindow } = useContext(GeneralContext);
 
   const handleBuyClick = async () => {
@@ -21,19 +17,37 @@ const BuyActionWindow = ({ uid }) => {
         price: stockPrice,
         mode: "BUY",
       });
-
-      closeBuyWindow(); // ✅ works now
+      closeBuyWindow();
     } catch (err) {
       console.error("Error placing order:", err);
     }
   };
 
   const handleCancelClick = () => {
-    closeBuyWindow(); // ✅ works now
+    closeBuyWindow();
   };
 
   return (
-    <div className="container" id="buy-window" draggable="true">
+    <div className="buy-window-container" id="buy-window" draggable="true">
+      {/* Header Section */}
+      <div className="header">
+        <div className="header-title">
+          <h3>
+            Buy {uid} <span>x {stockQuantity} Qty</span>
+          </h3>
+        </div>
+        {/* Optional: Add a subtle switch or text here for NSE/BSE */}
+        <div className="market-options">BSE</div>
+      </div>
+
+      {/* Tabs Section */}
+      <div className="tab">
+        <button className="active">Regular</button>
+        <button>Cover</button>
+        <button>AMO</button>
+      </div>
+
+      {/* Inputs Section */}
       <div className="regular-order">
         <div className="inputs">
           <fieldset>
@@ -42,6 +56,7 @@ const BuyActionWindow = ({ uid }) => {
               type="number"
               name="qty"
               id="qty"
+              min="1"
               onChange={(e) => setStockQuantity(e.target.value)}
               value={stockQuantity}
             />
@@ -53,6 +68,7 @@ const BuyActionWindow = ({ uid }) => {
               name="price"
               id="price"
               step="0.05"
+              min="0"
               onChange={(e) => setStockPrice(e.target.value)}
               value={stockPrice}
             />
@@ -60,9 +76,10 @@ const BuyActionWindow = ({ uid }) => {
         </div>
       </div>
 
+      {/* Footer / Buttons Section */}
       <div className="buttons">
-        <span>Margin required ₹140.65</span>
-        <div>
+        <span className="margin-required">Margin required: <strong>₹{(stockQuantity * stockPrice).toFixed(2)}</strong></span>
+        <div className="action-buttons">
           <button className="btn btn-blue" onClick={handleBuyClick}>
             Buy
           </button>
