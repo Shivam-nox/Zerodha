@@ -2,20 +2,29 @@ import React from "react";
 
 function RightSection({ imageURL, productName, productDescription, learnMore }) {
   return (
-    <div className="container mt-5 p-5">
-      <div className="row">
-        <div className="col-1"></div>
-        <div className="col-4 p-5 mt-5">
-          <h1>{productName}</h1>
-          <p className="text-muted">{productDescription}</p>
+    <div className="container mt-5 mb-5 py-md-5">
+      <div className="row align-items-center justify-content-center">
+        
+        {/* Left Side: Text & Actions (Stacks BELOW image on mobile) */}
+        <div className="col-12 col-md-6 p-4 p-md-5 order-2 order-md-1">
+          <h2 className="fw-bold mb-3" style={{ color: "#424242" }}>{productName}</h2>
+          <p className="text-muted fs-5 mb-4" style={{ lineHeight: "1.6" }}>
+            {productDescription}
+          </p>
           <div>
-            <a href={learnMore}>Learn More →</a>
+            {learnMore && (
+              <a href={learnMore} className="text-decoration-none fw-semibold fs-5" style={{ color: "#387ed1" }}>
+                Learn More <i className="fa-solid fa-arrow-right ms-1"></i>
+              </a>
+            )}
           </div>
         </div>
-        <div className="col-1"></div>
-        <div className="col-6">
-          <img src={imageURL} />
+
+        {/* Right Side: Image (Stacks ON TOP of text on mobile) */}
+        <div className="col-12 col-md-6 text-center mb-5 mb-md-0 order-1 order-md-2">
+          <img src={imageURL} alt={productName} className="img-fluid" style={{ maxWidth: "85%" }} />
         </div>
+        
       </div>
     </div>
   );

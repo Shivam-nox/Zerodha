@@ -1,41 +1,57 @@
 import React from 'react';
-import {Link} from "react-router-dom";
- 
+import { Link } from "react-router-dom";
+
+
 function NavBar() {
-    return ( 
-            <nav class="navbar navbar-expand-lg border-bottom" style={{backgroundColor:"white"}}>
-  <div class="container p-2">
-    <Link class="navbar-brand" to="/">
-        <img src='media/images/logo.svg' style={{width:"20%"}} className='mx-5'/>
-    </Link>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <li class="nav-item">
-          <Link class="nav-link " aria-current="page" to="/signup">Signup</Link>
-        </li>
-        <li class="nav-item">
-          <Link class="nav-link " to="/about">About</Link>
-        </li>
-        <li class="nav-item">
-          <Link class="nav-link " to="/products">Products</Link>
-        </li>
-        <li class="nav-item">
-          <Link class="nav-link " to="/pricing">Pricing</Link>
-        </li>
-        <li class="nav-item">
-          <Link class="nav-link " to="/support">Support</Link>
-        </li>
-      </ul>
-      <form class="d-flex" role="search">
-       
-      </form>
-    </div>
-  </div>
-        </nav>
-     );
+  return (
+    <nav className="navbar navbar-expand-lg border-bottom sticky-top" style={{ backgroundColor: "#fff" }}>
+      <div className="container py-2">
+        {/* Logo Section */}
+        <Link className="navbar-brand" to="/">
+          <img 
+            src='media/images/logo.svg' 
+            alt="Logo" 
+            style={{ width: "130px" }} // Changed from 20% to fixed width for consistency
+          />
+        </Link>
+
+        {/* Mobile Toggle Button */}
+        <button 
+          className="navbar-toggler border-0 shadow-none" 
+          type="button" 
+          data-bs-toggle="collapse" 
+          data-bs-target="#navbarSupportedContent" 
+          aria-controls="navbarSupportedContent" 
+          aria-expanded="false" 
+          aria-label="Toggle navigation"
+        >
+          <span className="navbar-toggler-icon"></span>
+        </button>
+
+        {/* Navigation Links */}
+        <div className="collapse navbar-collapse" id="navbarSupportedContent">
+          {/* Changed 'me-auto' to 'ms-auto' to push links to the right, added 'gap-3' for spacing */}
+          <ul className="navbar-nav ms-auto mb-2 mb-lg-0 gap-3 text-center">
+            <li className="nav-item">
+              <Link className="nav-link text-muted fw-semibold hover-link" to="/signup">Signup</Link>
+            </li>
+            <li className="nav-item">
+              <Link className="nav-link text-muted fw-semibold hover-link" to="/about">About</Link>
+            </li>
+            <li className="nav-item">
+              <Link className="nav-link text-muted fw-semibold hover-link" to="/products">Products</Link>
+            </li>
+            <li className="nav-item">
+              <Link className="nav-link text-muted fw-semibold hover-link" to="/pricing">Pricing</Link>
+            </li>
+            <li className="nav-item">
+              <Link className="nav-link text-muted fw-semibold hover-link" to="/support">Support</Link>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  );
 }
 
 export default NavBar;

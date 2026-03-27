@@ -5,11 +5,14 @@ import { ToastContainer, toast } from "react-toastify";
 
 const Login = () => {
   const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false); // New Loading State
   const [inputValue, setInputValue] = useState({
     email: "",
     password: "",
   });
+
   const { email, password } = inputValue;
+
   const handleOnChange = (e) => {
     const { name, value } = e.target;
     setInputValue({
@@ -19,84 +22,143 @@ const Login = () => {
   };
 
   const handleError = (err) =>
-    toast.error(err, {
-      position: "bottom-left",
-    });
+    toast.error(err, { position: "bottom-left" });
+
   const handleSuccess = (msg) =>
-    toast.success(msg, {
-      position: "bottom-left",
-    });
+    toast.success(msg, { position: "bottom-left" });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsLoading(true); // Start loading
+
     try {
       const { data } = await axios.post(
         "https://zerodha-backend-o0vr.onrender.com/login",
-        {
-          ...inputValue,
-        },
+        { ...inputValue },
         { withCredentials: true }
       );
-      console.log(data);
+
       const { success, message, username } = data;
+
       if (success) {
         handleSuccess(message);
-         setTimeout(() => {
-         window.location.href = `https://zerodhadb.onrender.com?username=${username}`;
-  }, 1000);
-  
-
+        setTimeout(() => {
+          window.location.href = `https://zerodhadb.onrender.com?username=${username}`;
+        }, 1000);
       } else {
         handleError(message);
+        setIsLoading(false); // Stop loading if failed
       }
     } catch (error) {
       console.log(error);
+      handleError("Something went wrong. Please try again.");
+      setIsLoading(false); // Stop loading on error
     }
-    setInputValue({
-      ...inputValue,
-      email: "",
-      password: "",
-    });
+
+    setInputValue({ email: "", password: "" });
   };
 
   return (
-    <div className="form_container text-center p-5">
-      <h2>Login Account</h2>
-      <br></br>
-      <br></br>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="email">Email :</label>
-          <input
-            type="email"
-            name="email"
-            value={email}
-            placeholder="Enter your email"
-            onChange={handleOnChange}
-          />
+    <div className="login-wrapper" style={styles.wrapper}>
+      {/* Loading Modal Overlay */}
+      {isLoading && (
+        <div style={styles.loaderOverlay}>
+          <div className="spinner-border text-light" role="status" style={{ width: "3rem", height: "3rem" }}>
+            <span className="visually-hidden">Loading...</span>
+          </div>
+          <p className="text-white mt-3">Authenticating...</p>
         </div>
-      <br></br>
-        <div>
-          <label htmlFor="password">Password :</label>
-          <input
-            type="password"
-            name="password"
-            value={password}
-            placeholder="Enter your password"
-            onChange={handleOnChange}
-          />
+      )}
+
+      <div className="card shadow-lg p-4" style={styles.card}>
+        <div className="text-center mb-4">
+          <h2 className="fw-bold" style={{ color: "#444" }}>Welcome Back</h2>
+          <p className="text-muted">Login to manage your portfolio</p>
         </div>
-      <br></br>
-        <button style={{width:"10%",margin:"0 auto",backgroundColor:"#387ed1"}} className='fs-5 p-2 btn btn-primary'>Submit</button>
-      <br></br>
-      <br></br>
-        <span>
-          If not have an Account -- [ <Link to={"/signup"}>Signup</Link> ]
-        </span>
-      </form>
+
+        <form onSubmit={handleSubmit}>
+          <div className="mb-3 text-start">
+            <label className="form-label fw-semibold">Email Address</label>
+            <input
+              type="email"
+              name="email"
+              className="form-control p-2"
+              value={email}
+              placeholder="name@example.com"
+              onChange={handleOnChange}
+              required
+            />
+          </div>
+
+          <div className="mb-4 text-start">
+            <label className="form-label fw-semibold">Password</label>
+            <input
+              type="password"
+              name="password"
+              className="form-control p-2"
+              value={password}
+              placeholder="••••••••"
+              onChange={handleOnChange}
+              required
+            />
+          </div>
+
+          <button 
+            type="submit" 
+            disabled={isLoading}
+            className="btn btn-primary w-100 py-2 fs-5"
+            style={styles.submitBtn}
+          >
+            {isLoading ? "Signing in..." : "Login"}
+          </button>
+
+          <div className="text-center mt-4">
+            <span className="text-muted">
+              Don't have an account? <Link to={"/signup"} className="text-decoration-none fw-bold" style={{color: "#387ed1"}}>Signup</Link>
+            </span>
+          </div>
+        </form>
+      </div>
       <ToastContainer />
     </div>
   );
+};
+
+// Custom Styles
+const styles = {
+  wrapper: {
+    minHeight: "100vh",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    background: "#f4f7f9",
+    padding: "20px"
+  },
+  card: {
+    maxWidth: "450px",
+    width: "100%",
+    borderRadius: "15px",
+    border: "none"
+  },
+  submitBtn: {
+    backgroundColor: "#387ed1",
+    border: "none",
+    borderRadius: "8px",
+    transition: "0.3s"
+  },
+  loaderOverlay: {
+    position: "fixed",
+    top: 0,
+    left: 0,
+    width: "100%",
+    height: "100%",
+    backgroundColor: "rgba(0, 0, 0, 0.7)",
+    zIndex: 9999,
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center"
+  }
 };
 
 export default Login;
